@@ -1,0 +1,109 @@
+/* App.css */
+
+/* 1. IMPORTAÇÃO DE FONTES */
+/* Recomendação: Instrument Serif para títulos e Inter para o corpo */
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;600&display=swap');
+
+/* 2. VARIÁVEIS GLOBAIS (Design System do Slide) */
+:root {
+  /* Cores Principais */
+  --brand-blue: #0000D1;
+  --brand-off-white: #F2F0E4;
+  --brand-white: #FFFFFF;
+  
+  /* Cores de Apoio */
+  --text-primary: #1A1A1A;
+  --text-secondary: rgba(0, 0, 209, 0.7);
+  --border-light: rgba(0, 0, 209, 0.1);
+  
+  /* Fontes */
+  --font-serif: 'Instrument Serif', serif;
+  --font-sans: 'Inter', sans-serif;
+
+  /* Efeitos */
+  --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.05);
+  --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 3. RESET & BASE */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--brand-off-white);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* 4. TIPOGRAFIA REUTILIZÁVEL */
+h1, h2, h3 {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  color: var(--brand-blue);
+}
+
+.italic {
+  font-style: italic;
+}
+
+/* 5. UTILITÁRIOS DE LAYOUT */
+.section-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 8rem 2rem;
+}
+
+/* 6. ANIMAÇÕES (Para o efeito de entrada dos slides) */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.reveal {
+  animation: fadeInUp 0.8s forwards;
+}
+
+/* 7. ESTILIZAÇÃO DE SCROLLBAR (Para manter o minimalismo) */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--brand-off-white);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--brand-blue);
+  border-radius: 10px;
+}
+
+/* 8. COMPONENTES GLOBAIS (Botões Base) */
+.btn-base {
+  padding: 1rem 2.5rem;
+  border-radius: 50px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  border: 1px solid transparent;
+  display: inline-block;
+  text-decoration: none;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
