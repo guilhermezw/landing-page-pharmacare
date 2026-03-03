@@ -13,12 +13,12 @@
 }
 
 .footer-logo {
-  height: 60px; /* Tamanho fixo e elegante para o rodapé */
+  height: 60px; 
   width: auto;
-  max-width: 200px; /* Impede absolutamente que a imagem estoure o ecrã */
+  max-width: 200px; 
   object-fit: contain;
   margin-bottom: 16px;
-  opacity: 0.9; /* Uma leve transparência fica muito elegante no rodapé */
+  opacity: 0.9; 
 }
 
 .footer-description {

@@ -7,7 +7,6 @@ html {
   flex-direction: column;
 }
 
-/* --- HERO SECTION (AZUL FORTE) --- */
 .hero-section {
   background: #1612d3;
   color: #ffffff;
@@ -69,7 +68,6 @@ html {
   width: 100%;
 }
 
-/* --- SEÇÕES COMUNS --- */
 .section-header {
   text-align: center;
   margin-bottom: 64px;
@@ -93,14 +91,12 @@ html {
   margin-bottom: 20px;
 }
 
-/* --- CORES DE FUNDO ALTERNADAS --- */
 .problem-section {
   background-color: #ffffff;
   padding: 100px 0;
 }
 
 .bg-soft-blue {
-  /* Um azul muito, muito clarinho, quase cinza, não cansa a vista e contrasta lindo com o azul escuro */
   background-color: #f4f5fa; 
 }
 
@@ -110,17 +106,15 @@ html {
 
 .showcase-section {
   padding: 120px 0;
-  overflow: hidden; /* Evita vazamentos horizontais */
+  overflow: hidden; 
 }
 
-/* --- LAYOUT DIVIDIDO (TEXTO E IMAGEM) --- */
 .split-layout {
   display: flex;
   align-items: center;
   gap: 60px;
 }
 
-/* Inverte a ordem: Imagem na esquerda, texto na direita */
 .split-layout.reverse {
   flex-direction: row-reverse;
 }
@@ -168,7 +162,7 @@ html {
   font-weight: 500;
 }
 
-/* Criação do "checkmark" (✓) azul nas listas */
+/* Criação do "checkmark*/
 .feature-list li::before {
   content: '✓';
   position: absolute;
@@ -178,28 +172,28 @@ html {
   font-weight: bold;
 }
 
-/* --- ESTILO DAS IMAGENS (O SEGREDO PARA NÃO ESTOURAR) --- */
+/* --- ESTILO DAS IMAGENS*/
 .split-image-container {
-  flex: 1.8; /* Dá um pouco mais de espaço para a imagem do que para o texto */
+  flex: 1.8; 
   display: flex;
   justify-content: center;
 }
 
 .mockup-img {
   width: 100%;
-  max-width: 1100px; /* Impede que cresça infinitamente em telas gigantes */
+  max-width: 1100px; 
   height: auto;
-  border-radius: 16px; /* Bordas arredondadas padrão Apple */
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15); /* Sombra elegante flutuante */
-  border: 1px solid rgba(0, 0, 0, 0.05); /* Borda muito sutil */
+  border-radius: 16px; 
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15); 
+  border: 1px solid rgba(0, 0, 0, 0.05); 
   transition: transform 0.3s ease;
 }
 
 .mockup-img:hover {
-  transform: translateY(-8px); /* Levanta um pouquinho quando passa o mouse */
+  transform: translateY(-8px); 
 }
 
-/* --- CONTATO (NOVO LAYOUT) --- */
+/* --- CONTATO --- */
 .cta-section {
   background: #1612d3;
   color: #ffffff;
@@ -266,16 +260,34 @@ html {
   box-shadow: 0 0 0 4px rgba(22, 18, 211, 0.1);
 }
 
-/* --- RESPONSIVIDADE (CELULAR E TABLET) --- */
+/* --- RESPONSIVIDADE --- */
 @media (max-width: 900px) {
   .split-layout, .split-layout.reverse, .contact-layout {
-    flex-direction: column; /* Empilha texto em cima e imagem embaixo no celular */
+    flex-direction: column;
     text-align: center;
     gap: 40px;
   }
   
   .feature-list li {
-    text-align: left; /* Mantém a lista alinhada à esquerda mesmo com texto centralizado */
+    text-align: left; 
     display: inline-block;
   }
 }
+
+/* --- ANIMAÇÕES DE FADE IN --- */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px); 
+  transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); 
+}
+
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+.delay-1 { transition-delay: 0.1s; }
+.delay-2 { transition-delay: 0.2s; }
+.delay-3 { transition-delay: 0.3s; }

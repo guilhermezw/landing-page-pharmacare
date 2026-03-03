@@ -2,24 +2,22 @@
 
 :root {
   /* Paleta de Cores */
-  --bg-color: #ffffff; /* Tema Branco */
+  --bg-color: #ffffff; 
   --card-bg: #ffffff;
-  --bg-secondary: #fbfbfd; /* Fundo levemente cinza para destacar seções */
-  --text-primary: #1d1d1f; /* Cinza escuro quase preto (padrão Apple) */
+  --bg-secondary: #fbfbfd; 
   --text-secondary: #86868b;
-  --accent-color: #1612d3; /* O seu azul personalizado */
+  --accent-color: #1612d3; 
   --border-color: rgba(0, 0, 0, 0.08);
   
-  /* Formas e Efeitos */
   --radius-card: 20px;
-  --radius-btn: 980px; /* Formato de pílula para botões */
+  --radius-btn: 980px; 
   --shadow-soft: 0 4px 24px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.04);
   --shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.08);
   --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 html {
-  scroll-behavior: smooth !important; /* Força a animação suave */
+  scroll-behavior: smooth !important; 
 }
 
 body {
@@ -58,7 +56,7 @@ p {
   margin: 0;
 }
 
-/* O famoso Soft Card Apple */
+
 .soft-card {
   background: var(--card-bg);
   border-radius: var(--radius-card);
