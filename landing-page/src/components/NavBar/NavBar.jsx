@@ -16,7 +16,7 @@ function Navbar() {
     <header className="navbar">
       <div className="container nav-inner">
         <a href="#hero" onClick={(e) => scrollToSection(e, 'hero')}>
-          <img src={logo} alt="PharmaCare" className="logo-img" />
+          <img src={logo} alt="PharmaCare" className="logo-img" /> 
         </a>
 
         <nav>
