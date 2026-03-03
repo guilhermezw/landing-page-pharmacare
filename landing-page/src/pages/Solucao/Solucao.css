@@ -1,0 +1,13 @@
+.solucao {
+  padding: 100px 0;
+}
+
+.solucao h1 {
+  margin-bottom: 80px;
+}
+
+.solucao-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 32px;
+}

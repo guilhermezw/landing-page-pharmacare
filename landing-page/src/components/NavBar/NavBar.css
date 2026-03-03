@@ -1,0 +1,71 @@
+.navbar {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  border-bottom: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+}
+
+.nav-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 90px; /* AUMENTADO: Antes era 64px */
+}
+
+.logo-img {
+  height: 72px; /* Aumentámos de 52px para 72px */
+  width: auto;
+  max-width: 250px; /* Garante que nunca ultrapassa um tamanho seguro */
+  object-fit: contain; /* Garante que a imagem não perde a proporção */
+  cursor: pointer;
+}
+
+.nav-links {
+  display: flex;
+  gap: 40px; /* Mais espaço entre os links */
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--text-primary);
+  font-size: 1.05rem; /* Fonte um pouco maior */
+  font-weight: 500;
+  opacity: 0.7;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.nav-links a:hover {
+  opacity: 1;
+  color: var(--accent-color);
+}
+
+/* Estilo especial para o botão de contato na Navbar */
+.nav-links a.btn-nav-contact {
+  background-color: #1612d3; /* O seu azul */
+  color: #ffffff; /* Letra branca */
+  padding: 12px 24px;
+  border-radius: 980px; /* Estilo pílula da Apple */
+  font-weight: 600;
+  opacity: 1; /* Retira aquela transparência dos outros links */
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(22, 18, 211, 0.2);
+}
+
+.nav-links a.btn-nav-contact:hover {
+  background-color: #0c0980; /* Azul mais escuro ao passar o mouse */
+  transform: translateY(-2px); /* Dá um pulinho */
+  box-shadow: 0 6px 16px rgba(22, 18, 211, 0.3);
+}
+
+/* Garante que o menu inteiro fique alinhado perfeitamente no centro verticalmente */
+.nav-links {
+  align-items: center; 
+}
