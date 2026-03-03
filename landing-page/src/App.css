@@ -1,7 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
-  /* Paleta de Cores */
+  --font-body: 'Inter', sans-serif;
+  --font-title: 'Playfair Display', serif;
+}
+
+body, button, input, textarea, p, a, li, span {
+  font-family: var(--font-body);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-title);
+  letter-spacing: -0.02em; 
+}
+
+:root {
   --bg-color: #ffffff; 
   --card-bg: #ffffff;
   --bg-secondary: #fbfbfd; 
