@@ -1,22 +1,19 @@
-import { useState, useEffect } from "react"; // IMPORTANTE: Adicionamos os hooks aqui
+import { useState, useEffect } from "react";
 import "./Navbar.css";
 import logo from "../../assets/logo.png"; 
 
 function Navbar() {
-  // Estado para guardar qual seção está visível no momento
   const [activeSection, setActiveSection] = useState("hero");
 
-  // Efeito que monitora o scroll da página
   useEffect(() => {
     const handleScroll = () => {
       const sections = ["hero", "problema", "solucao", "contato"];
-      const scrollPosition = window.scrollY + 120; // 120px de margem de erro por causa da navbar fixa
+      const scrollPosition = window.scrollY + 120; 
 
       for (const section of sections) {
         const element = document.getElementById(section);
         if (element) {
           const { offsetTop, offsetHeight } = element;
-          // Verifica se o scroll do usuário está dentro daquela seção
           if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
             setActiveSection(section);
           }
@@ -24,13 +21,10 @@ function Navbar() {
       }
     };
 
-    // Adiciona o ouvinte de scroll quando o componente carrega
     window.addEventListener("scroll", handleScroll);
     
-    // Executa uma vez logo de cara para marcar o "Home"
     handleScroll();
 
-    // Limpa o ouvinte quando o componente for desmontado
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -54,7 +48,6 @@ function Navbar() {
         <nav>
           <ul className="nav-links">
             <li>
-              {/* Se a seção ativa for 'hero', adiciona a classe 'active' */}
               <a 
                 href="#hero" 
                 className={activeSection === "hero" ? "active" : ""} 
