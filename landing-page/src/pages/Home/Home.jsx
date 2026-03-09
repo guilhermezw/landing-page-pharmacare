@@ -111,7 +111,7 @@ function Home() {
             </ul>
           </div>
           <div className="split-image-container reveal delay-2">
-            <img src={dashImg} alt="Dashboard PharmaCare" className="mockup-img" />
+            <img src={dashImg} alt="Dashboard PharmaCare" className="dashboard-mockup-img" />
           </div>
         </div>
       </section>
@@ -132,7 +132,7 @@ function Home() {
             </ul>
           </div>
           <div className="split-image-container reveal delay-2">
-            <img src={pacientesImg} alt="Gestão de Pacientes" className="mockup-img" />
+            <img src={pacientesImg} alt="Gestão de Pacientes" className="pacientes-mockup-img" />
           </div>
         </div>
       </section>

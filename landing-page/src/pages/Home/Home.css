@@ -176,11 +176,24 @@ html {
 .split-image-container {
   flex: 1.8; 
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
-.mockup-img {
-  width: 100%;
+.pacientes-mockup-img {
+  width: 130%;
+  max-width: 1100px; 
+  height: auto;
+  border-radius: 16px; 
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15); 
+  border: 1px solid rgba(0, 0, 0, 0.05); 
+  transition: transform 0.3s ease;
+
+  transform: scale(1.20);
+  transform: translateX(-200px)
+}
+
+.dashboard-mockup-img {
+  width: 280%;
   max-width: 1100px; 
   height: auto;
   border-radius: 16px; 
