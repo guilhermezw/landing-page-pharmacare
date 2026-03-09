@@ -1,7 +1,7 @@
 import { useEffect } from "react"; 
 import "./Home.css";
-import dashImg from "../../assets/dashboard.png"; 
-import pacientesImg from "../../assets/tela-pacientes.png"; 
+import dashboardImg from "../../assets/dashboard-tela.png"; 
+import pacientesImg from "../../assets/pacientes-tela.png"; 
 
 function Home() {
   
@@ -111,7 +111,7 @@ function Home() {
             </ul>
           </div>
           <div className="split-image-container reveal delay-2">
-            <img src={dashImg} alt="Dashboard PharmaCare" className="dashboard-mockup-img" />
+            <img src={dashboardImg} alt="Dashboard PharmaCare" className="dashboard-mockup-img" />
           </div>
         </div>
       </section>
