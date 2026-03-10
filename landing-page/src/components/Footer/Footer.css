@@ -1,0 +1,33 @@
+.footer {
+  background: var(--bg-secondary);
+  padding: 60px 0 40px;
+  border-top: 1px solid var(--border-color);
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 16px;
+}
+
+.footer-logo {
+  height: 60px; 
+  width: auto;
+  max-width: 200px; 
+  object-fit: contain;
+  margin-bottom: 16px;
+  opacity: 0.9; 
+}
+
+.footer-description {
+  font-size: 0.9rem;
+  max-width: 400px;
+}
+
+.copy {
+  margin-top: 24px;
+  font-size: 0.8rem;
+  color: #a1a1a6;
+}

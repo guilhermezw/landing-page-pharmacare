@@ -1,0 +1,62 @@
+.contato {
+  padding: 100px 0;
+  text-align: center;
+}
+
+.contato h1 {
+  margin-bottom: 48px;
+}
+
+.contato-card {
+  max-width: 500px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  text-align: left;
+}
+
+.contato-card input, 
+.contato-card textarea {
+  width: 100%;
+  padding: 18px 20px;
+  border-radius: 14px;
+  border: 1px solid var(--border-color);
+  background: #fbfbfd;
+  font-family: inherit;
+  font-size: 1rem;
+  color: var(--text-primary);
+  box-sizing: border-box;
+  transition: var(--transition);
+}
+
+.contato-card input:focus, 
+.contato-card textarea:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgba(22, 18, 211, 0.15); 
+}
+
+.contato-card textarea {
+  resize: vertical;
+  min-height: 140px;
+}
+
+.contato-card button {
+  background: var(--accent-color);
+  color: #ffffff;
+  border: none;
+  padding: 18px;
+  border-radius: var(--radius-btn);
+  font-size: 1.125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  margin-top: 12px;
+}
+
+.contato-card button:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 20px rgba(22, 18, 211, 0.3);
+}
