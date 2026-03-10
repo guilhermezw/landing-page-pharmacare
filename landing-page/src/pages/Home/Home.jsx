@@ -1,7 +1,8 @@
 import { useEffect } from "react"; 
 import "./Home.css";
 import dashboardImg from "../../assets/dashboard-tela.png"; 
-import pacientesImg from "../../assets/pacientes-tela.png"; 
+import pacientesImg from "../../assets/pacientes-tela.png";
+import video from "../../assets/video.mp4";
 
 function Home() {
   
@@ -51,6 +52,10 @@ function Home() {
       <section id="problema" className="problem-section">
         <div className="container">
           <div className="section-header reveal">
+            <video autoPlay loop muted playsInline width="640" height="360" className="video-inicial">
+            <source src={video} type="video/mp4" />
+            Seu navegador não suporta vídeos HTML5.
+          </video>
             <h2>O fim dos dados fragmentados.</h2>
             <p>Diga adeus às planilhas soltas e ao risco de interações não detectadas.</p>
           </div>
