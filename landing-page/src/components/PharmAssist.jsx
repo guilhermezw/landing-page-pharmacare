@@ -3,7 +3,7 @@ import { Sparkles, Brain, GitCompareArrows, Lightbulb, Stethoscope, Check } from
 
 import { cn } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
-import { fadeUp, stagger, inView } from "@/lib/motion"
+import { fadeUp, stagger, inView, floatIdle } from "@/lib/motion"
 import { useImageLoaded } from "@/hooks/useImageLoaded"
 import LiquidMesh from "@/components/LiquidMesh"
 import TiltCard from "@/components/TiltCard"
@@ -17,6 +17,30 @@ const CAPABILITIES = [
   { icon: Lightbulb, label: "Insights clínicos" },
 ]
 
+// Small frosted card that overhangs the app window, annotating what the
+// assistant does — the empty-state screenshot can't show this on its own.
+// Light on purpose so it reads as a product surface against the navy panel.
+function Callout({ icon: Icon, label, sub, className, distance = 8, duration = 5.5, delay = 0 }) {
+  const reduce = useReducedMotion()
+  return (
+    <motion.div
+      {...(reduce ? {} : floatIdle(distance, duration, delay))}
+      className={cn(
+        "absolute z-20 hidden items-center gap-2.5 rounded-2xl border border-white/70 bg-white/90 px-3.5 py-2.5 shadow-glass backdrop-blur-md lg:flex",
+        className
+      )}
+    >
+      <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+        <Icon className="size-4" />
+      </span>
+      <div className="leading-tight">
+        <p className="text-[13px] font-semibold text-ink">{label}</p>
+        <p className="text-[11px] text-ink-soft">{sub}</p>
+      </div>
+    </motion.div>
+  )
+}
+
 export default function PharmAssist() {
   const reduce = useReducedMotion()
   const { ref: imgRef, loaded, onLoad } = useImageLoaded()
@@ -28,7 +52,7 @@ export default function PharmAssist() {
         {/* subtle top hairline of light on the glass panel */}
         <div aria-hidden className="pointer-events-none absolute inset-x-16 top-0 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent" />
 
-        <div className="relative grid items-center gap-12 lg:grid-cols-2">
+        <div className="relative grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <div>
             <motion.div variants={fadeUp} {...inView}>
               <Badge variant="inverse">
@@ -47,7 +71,7 @@ export default function PharmAssist() {
             <motion.h2
               variants={fadeUp}
               {...inView}
-              className="mt-6 text-4xl leading-tight text-inverse-ink sm:text-5xl"
+              className="mt-6 text-4xl leading-[1.08] text-inverse-ink sm:text-5xl"
             >
               Uma segunda camada de <span className="italic text-lavender">inteligência</span>.
             </motion.h2>
@@ -55,7 +79,7 @@ export default function PharmAssist() {
             <motion.p
               variants={fadeUp}
               {...inView}
-              className="mt-5 max-w-md text-lg leading-relaxed text-inverse-ink/85"
+              className="mt-5 max-w-md text-lg leading-relaxed text-inverse-ink/80"
             >
               A PharmAssist organiza informações, identifica padrões e apresenta
               evidências. Para ampliar a capacidade clínica do profissional —
@@ -84,7 +108,7 @@ export default function PharmAssist() {
             <motion.div
               variants={fadeUp}
               {...inView}
-              className="relative mt-9 overflow-hidden rounded-2xl border-l-2 border-lavender bg-white/5 py-4 pl-5 pr-4 backdrop-blur-md"
+              className="relative mt-8 overflow-hidden rounded-2xl border-l-2 border-lavender bg-white/5 py-4 pl-5 pr-4 backdrop-blur-md"
             >
               {/* glow breathing along the accent edge */}
               <motion.span
@@ -102,41 +126,69 @@ export default function PharmAssist() {
           <TiltCard
             variants={fadeUp}
             {...inView}
-            max={9}
+            max={7}
             glow="rgba(191,194,255,0.22)"
             className="group relative"
           >
-            <div className="glass-strong relative overflow-hidden rounded-2xl p-2 shadow-glass">
-              {!loaded && (
-                <div
-                  aria-hidden
-                  className="absolute inset-2 animate-pulse rounded-xl bg-gradient-to-br from-white/10 to-white/5"
-                />
-              )}
-              <img
-                ref={imgRef}
-                onLoad={onLoad}
-                src={assist}
-                alt="PharmAssist analisando o caso clínico e apresentando evidências ao farmacêutico"
-                width="1440"
-                height="779"
-                loading="lazy"
-                decoding="async"
-                className={cn(
-                  "relative w-full rounded-xl transition-[opacity,transform] duration-700 ease-liquid",
-                  loaded ? "opacity-100 scale-100" : "opacity-0 scale-[1.02]"
+            {/* the product surface, framed as a real app window — opaque so the
+                navy panel and mesh never bleed through and wash it out */}
+            <figure className="relative overflow-hidden rounded-2xl border border-white/15 bg-surface-1 shadow-glass">
+              {/* window chrome: traffic-light dots + an address-bar cue */}
+              <div className="flex items-center gap-3 border-b border-line/60 bg-surface-2 px-4 py-2.5">
+                <div aria-hidden className="flex items-center gap-1.5">
+                  <span className="size-2.5 rounded-full bg-outline/30" />
+                  <span className="size-2.5 rounded-full bg-outline/30" />
+                  <span className="size-2.5 rounded-full bg-primary/30" />
+                </div>
+                <div className="ml-auto flex items-center gap-1.5 rounded-full bg-surface px-3 py-1 text-[11px] font-medium tracking-wide text-outline">
+                  <Sparkles aria-hidden className="size-3 text-primary" />
+                  app.pharmacare/assistente
+                </div>
+              </div>
+
+              {/* opaque screen plate — the fix: no translucency, full contrast */}
+              <div className="relative bg-surface">
+                {!loaded && (
+                  <div
+                    aria-hidden
+                    className="absolute inset-0 animate-pulse bg-gradient-to-br from-surface-2 to-surface-4"
+                  />
                 )}
-              />
-              {/* scan line sweeping the screenshot — suggests live analysis */}
-              {!reduce && loaded && (
-                <motion.span
-                  aria-hidden
-                  className="pointer-events-none absolute inset-x-2 top-2 h-16 rounded-xl bg-gradient-to-b from-transparent via-lavender/25 to-transparent blur-sm"
-                  animate={{ y: ["-4rem", "22rem"] }}
-                  transition={{ duration: 3.8, repeat: Infinity, repeatDelay: 1.6, ease: "easeInOut" }}
+                <img
+                  ref={imgRef}
+                  onLoad={onLoad}
+                  src={assist}
+                  alt="PharmAssist analisando o caso clínico e apresentando evidências ao farmacêutico"
+                  width="1440"
+                  height="779"
+                  loading="lazy"
+                  decoding="async"
+                  className={cn(
+                    "relative block w-full transition-[opacity,transform] duration-700 ease-liquid",
+                    loaded ? "opacity-100 scale-100" : "opacity-0 scale-[1.02]"
+                  )}
                 />
-              )}
-            </div>
+              </div>
+            </figure>
+
+            {/* floating callouts narrate the value the empty screen can't show */}
+            <Callout
+              icon={Brain}
+              label="Análise em tempo real"
+              sub="Padrões e evidências"
+              className="-right-4 top-14"
+              distance={9}
+              duration={5.5}
+            />
+            <Callout
+              icon={GitCompareArrows}
+              label="Interações sinalizadas"
+              sub="No momento certo"
+              className="-left-5 bottom-16"
+              distance={7}
+              duration={6.5}
+              delay={0.8}
+            />
           </TiltCard>
         </div>
       </div>
