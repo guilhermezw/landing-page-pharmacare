@@ -1,0 +1,181 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/*
+  PharmaCare — "Liquid Care" design system
+  Tokens mapped 1:1 from DESIGN.md. Light-only, glassmorphism.
+*/
+
+@theme {
+  /* ---- Brand color tokens ---- */
+  --color-surface: #f8f9ff;
+  --color-surface-dim: #cbdbf5;
+  --color-surface-1: #ffffff;
+  --color-surface-2: #eff4ff;
+  --color-surface-3: #e5eeff;
+  --color-surface-4: #dce9ff;
+  --color-surface-5: #d3e4fe;
+
+  --color-ink: #0b1c30;          /* on-surface */
+  --color-ink-soft: #454557;     /* on-surface-variant */
+  --color-inverse: #213145;      /* inverse-surface (navy panel) */
+  --color-inverse-ink: #eaf1ff;  /* inverse-on-surface */
+
+  --color-primary: #1111ff;      /* primary-container / vibrant cobalt */
+  --color-primary-deep: #0300c2; /* primary */
+  --color-primary-ink: #b8bbff;  /* on-primary-container */
+  --color-tint: #353cff;         /* surface-tint */
+  --color-lavender: #bfc2ff;     /* inverse-primary — organic accent */
+
+  --color-line: #c5c4db;         /* outline-variant */
+  --color-outline: #757589;
+
+  /* ---- Typefaces ---- */
+  --font-serif: "Instrument Serif", ui-serif, Georgia, serif;
+  --font-sans: "Inter Variable", "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  /* ---- Radii (DESIGN.md rounded scale) ---- */
+  --radius-sm: 0.25rem;
+  --radius: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-2xl: 2rem;
+
+  /* ---- Signature ambient shadow (blue-tinted, diffuse) ---- */
+  --shadow-glass: 0 20px 60px -12px rgba(17, 17, 255, 0.14);
+  --shadow-glass-soft: 0 12px 40px -16px rgba(17, 17, 255, 0.10);
+
+  /* ---- Motion ---- */
+  --ease-liquid: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* shadcn/ui token bridge — mapped onto the Liquid Care palette so
+   primitives (Button, Card, Accordion…) inherit the brand automatically. */
+:root {
+  --radius: 0.75rem;
+  --background: #f8f9ff;
+  --foreground: #0b1c30;
+  --card: #ffffff;
+  --card-foreground: #0b1c30;
+  --popover: #ffffff;
+  --popover-foreground: #0b1c30;
+  --primary: #1111ff;
+  --primary-foreground: #ffffff;
+  --secondary: #e5eeff;
+  --secondary-foreground: #0b1c30;
+  --muted: #eff4ff;
+  --muted-foreground: #454557;
+  --accent: #dce9ff;
+  --accent-foreground: #0300c2;
+  --destructive: #ba1a1a;
+  --destructive-foreground: #ffffff;
+  --border: #c5c4db;
+  --input: #c5c4db;
+  --ring: #353cff;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-line);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    /* Fixed navbar offset — anchor jumps clear the floating header */
+    scroll-padding-top: 6rem;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background-color: var(--color-surface);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-feature-settings: "cv05", "ss01";
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background-color: color-mix(in srgb, var(--color-primary) 22%, transparent);
+    color: var(--color-primary-deep);
+  }
+
+  /* Visible keyboard focus — quality floor */
+  :focus-visible {
+    outline: 2px solid var(--color-tint);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  h1, h2, h3 {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+  }
+}
+
+@layer components {
+  /* Frosted glass surface — the Mid layer from DESIGN.md */
+  .glass {
+    background-color: rgba(255, 255, 255, 0.62);
+    backdrop-filter: blur(24px) saturate(1.4);
+    -webkit-backdrop-filter: blur(24px) saturate(1.4);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.6);
+  }
+
+  .glass-strong {
+    background-color: rgba(255, 255, 255, 0.78);
+    backdrop-filter: blur(32px) saturate(1.6);
+    -webkit-backdrop-filter: blur(32px) saturate(1.6);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+  }
+
+  /* Eyebrow / clinical label — Inter, uppercase, tracked out */
+  .eyebrow {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-primary-deep);
+  }
+}
+
+/* Reduced-motion respected globally */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
