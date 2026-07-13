@@ -1,16 +1,17 @@
 import { useEffect, useRef, useState } from "react"
-import { AnimatePresence, motion, useReducedMotion, useScroll, useSpring } from "motion/react"
-import { ArrowRight, Menu, X } from "lucide-react"
+import { AnimatePresence, motion, useReducedMotion } from "motion/react"
+import { Menu, X } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
-import MagneticButton from "@/components/MagneticButton"
 import { cn } from "@/lib/utils"
 import logo from "@/assets/logo.png"
 
+// Order mirrors the document flow (Hero → Manifesto → Plataforma → PharmAssist → Visão)
+// so the active-section indicator glides left-to-right instead of jumping around.
 const LINKS = [
+  { label: "Manifesto", id: "manifesto" },
   { label: "Plataforma", id: "plataforma" },
   { label: "PharmAssist", id: "pharmassist" },
-  { label: "Manifesto", id: "manifesto" },
   { label: "Visão", id: "visao" },
 ]
 
@@ -33,15 +34,10 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
   const [activeId, setActiveId] = useState(null)
-  const [hoveredId, setHoveredId] = useState(null)
 
   const sentinelRef = useRef(null)
   const menuRef = useRef(null)
   const toggleRef = useRef(null)
-
-  // Reading-progress bar — tracks how far the page is scrolled.
-  const { scrollYProgress } = useScroll()
-  const progress = useSpring(scrollYProgress, { stiffness: 140, damping: 26, restDelta: 0.001 })
 
   // Header condense state — driven by a top sentinel, no per-frame scroll work.
   useEffect(() => {
@@ -114,8 +110,7 @@ export default function Navbar() {
     }
   }, [open])
 
-  const indicatorId = hoveredId ?? activeId
-  const pillTransition = reduce
+  const underlineTransition = reduce
     ? { duration: 0 }
     : { type: "spring", stiffness: 420, damping: 34 }
 
@@ -128,79 +123,77 @@ export default function Navbar() {
         initial={reduce ? false : { y: -80, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-        className="fixed inset-x-0 top-0 z-50 flex justify-center px-4 pt-3 sm:pt-4"
+        className={cn(
+          "fixed inset-x-0 top-0 z-50 transition-colors duration-500 ease-liquid",
+          scrolled
+            ? "border-b border-line/50 bg-surface/70 backdrop-blur-xl supports-[backdrop-filter]:bg-surface/55"
+            : "border-b border-transparent bg-transparent"
+        )}
       >
         <nav
           className={cn(
-            "relative flex w-full max-w-[1280px] items-center justify-between rounded-2xl px-4 transition-all duration-500 ease-liquid sm:px-5",
-            scrolled
-              ? "glass-strong py-2 shadow-[0_10px_40px_-20px_rgba(17,17,255,0.25)]"
-              : "border border-transparent bg-transparent py-2.5"
+            "mx-auto flex max-w-[1280px] items-center justify-between px-4 transition-all duration-500 ease-liquid sm:px-6",
+            scrolled ? "h-14" : "h-16"
           )}
         >
-          {/* Logo */}
-          <a
-            href="#top"
-            className="group flex items-center rounded-full"
-            aria-label="PharmaCare — início"
-          >
-            <img
-              src={logo}
-              alt="PharmaCare"
-              width="1066"
-              height="615"
-              decoding="async"
-              className="h-8 w-auto origin-left transition-transform duration-300 ease-liquid group-hover:scale-[1.04] sm:h-9"
-            />
-          </a>
+          {/* Left cluster — logo + primary nav */}
+          <div className="flex items-center gap-6 lg:gap-9">
+            <a
+              href="#top"
+              className="group flex items-center rounded-md"
+              aria-label="PharmaCare — início"
+            >
+              <img
+                src={logo}
+                alt="PharmaCare"
+                width="1066"
+                height="615"
+                decoding="async"
+                className="h-7 w-auto origin-left transition-transform duration-300 ease-liquid group-hover:scale-[1.03] sm:h-8"
+              />
+            </a>
 
-          {/* Center nav — animated indicator follows hover / active section */}
-          <div
-            className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-1 md:flex"
-            onMouseLeave={() => setHoveredId(null)}
-          >
-            {LINKS.map((l) => {
-              const isActive = activeId === l.id
-              return (
-                <a
-                  key={l.id}
-                  href={`#${l.id}`}
-                  aria-current={isActive ? "true" : undefined}
-                  onMouseEnter={() => setHoveredId(l.id)}
-                  onFocus={() => setHoveredId(l.id)}
-                  onBlur={() => setHoveredId(null)}
-                  className={cn(
-                    "relative rounded-full px-4 py-2 text-sm font-medium transition-colors",
-                    isActive ? "text-primary-deep" : "text-ink-soft hover:text-primary-deep"
-                  )}
-                >
-                  {indicatorId === l.id && (
-                    <motion.span
-                      layoutId="nav-pill"
-                      transition={pillTransition}
-                      className="absolute inset-0 -z-10 rounded-full bg-primary/15 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.6)]"
-                    />
-                  )}
-                  {l.label}
-                </a>
-              )
-            })}
+            <div className="hidden items-center gap-1 md:flex">
+              {LINKS.map((l) => {
+                const isActive = activeId === l.id
+                return (
+                  <a
+                    key={l.id}
+                    href={`#${l.id}`}
+                    aria-current={isActive ? "location" : undefined}
+                    className={cn(
+                      "relative rounded-md px-3 py-2 text-[13px] font-medium tracking-[-0.006em] transition-colors",
+                      isActive ? "text-ink" : "text-ink-soft hover:text-ink"
+                    )}
+                  >
+                    {l.label}
+                    {isActive && (
+                      <motion.span
+                        layoutId="nav-underline"
+                        transition={underlineTransition}
+                        className="absolute inset-x-3 -bottom-px h-px rounded-full bg-primary"
+                      />
+                    )}
+                  </a>
+                )
+              })}
+            </div>
           </div>
 
           {/* Right cluster */}
           <div className="flex items-center gap-2">
-            <div className="hidden md:block">
-              <MagneticButton href="#agendar" size="sm" className="h-10 px-5" strength={12}>
-                Agendar demonstração
-                <ArrowRight className="size-4" />
-              </MagneticButton>
-            </div>
+            <Button
+              asChild
+              className="hidden h-10 px-5 text-[13px] font-medium shadow-[0_1px_2px_rgba(11,28,48,0.08)] hover:shadow-[0_8px_24px_-8px_rgba(17,17,255,0.45)] md:inline-flex"
+            >
+              <a href="#agendar">Agendar demonstração</a>
+            </Button>
 
             <button
               ref={toggleRef}
               type="button"
               onClick={() => setOpen((v) => !v)}
-              className="flex size-11 items-center justify-center rounded-full text-ink md:hidden"
+              className="flex size-11 items-center justify-center rounded-lg text-ink transition-colors hover:bg-ink/[0.04] md:hidden"
               aria-label={open ? "Fechar menu" : "Abrir menu"}
               aria-expanded={open}
               aria-controls="mobile-menu"
@@ -230,16 +223,6 @@ export default function Navbar() {
               </AnimatePresence>
             </button>
           </div>
-
-          {/* Reading-progress bar along the base of the condensed header. */}
-          <motion.div
-            aria-hidden
-            style={{ scaleX: progress }}
-            className={cn(
-              "absolute inset-x-4 bottom-0 h-0.5 origin-left rounded-full bg-gradient-to-r from-primary via-tint to-primary/40 transition-opacity duration-500 sm:inset-x-5",
-              scrolled ? "opacity-100" : "opacity-0"
-            )}
-          />
         </nav>
       </motion.header>
 
@@ -265,7 +248,7 @@ export default function Navbar() {
               initial="hidden"
               animate="show"
               exit={{ opacity: 0, y: -8, transition: { duration: 0.2 } }}
-              className="glass-strong fixed inset-x-4 top-[4.75rem] z-50 flex flex-col gap-1 rounded-3xl p-3 shadow-glass md:hidden"
+              className="glass-strong fixed inset-x-4 top-[4.5rem] z-50 flex flex-col gap-1 rounded-2xl border border-line/50 p-3 shadow-glass md:hidden"
             >
               {LINKS.map((l) => (
                 <motion.a
@@ -273,12 +256,12 @@ export default function Navbar() {
                   variants={linkVariants}
                   href={`#${l.id}`}
                   onClick={() => setOpen(false)}
-                  aria-current={activeId === l.id ? "true" : undefined}
+                  aria-current={activeId === l.id ? "location" : undefined}
                   className={cn(
-                    "rounded-2xl px-4 py-3 text-base font-medium transition-colors",
+                    "rounded-xl px-4 py-3 text-[15px] font-medium transition-colors",
                     activeId === l.id
-                      ? "bg-white/60 text-primary-deep"
-                      : "text-ink hover:bg-white/60"
+                      ? "bg-ink/[0.05] text-ink"
+                      : "text-ink-soft hover:bg-ink/[0.04] hover:text-ink"
                   )}
                 >
                   {l.label}
@@ -288,7 +271,6 @@ export default function Navbar() {
                 <Button asChild className="w-full">
                   <a href="#agendar" onClick={() => setOpen(false)}>
                     Agendar demonstração
-                    <ArrowRight className="size-4" />
                   </a>
                 </Button>
               </motion.div>

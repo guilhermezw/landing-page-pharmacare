@@ -1,8 +1,10 @@
 import { motion, useReducedMotion } from "motion/react"
 import { Sparkles, Brain, GitCompareArrows, Lightbulb, Stethoscope, Check } from "lucide-react"
 
+import { cn } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
-import { fadeUp, stagger } from "@/lib/motion"
+import { fadeUp, stagger, inView } from "@/lib/motion"
+import { useImageLoaded } from "@/hooks/useImageLoaded"
 import LiquidMesh from "@/components/LiquidMesh"
 import TiltCard from "@/components/TiltCard"
 import assist from "@/assets/pharma_assist.png"
@@ -17,6 +19,7 @@ const CAPABILITIES = [
 
 export default function PharmAssist() {
   const reduce = useReducedMotion()
+  const { ref: imgRef, loaded, onLoad } = useImageLoaded()
 
   return (
     <section id="pharmassist" className="relative px-4 py-16 sm:px-6 sm:py-24">
@@ -27,7 +30,7 @@ export default function PharmAssist() {
 
         <div className="relative grid items-center gap-12 lg:grid-cols-2">
           <div>
-            <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, margin: "-80px" }}>
+            <motion.div variants={fadeUp} {...inView}>
               <Badge variant="inverse">
                 <motion.span
                   aria-hidden
@@ -43,9 +46,7 @@ export default function PharmAssist() {
 
             <motion.h2
               variants={fadeUp}
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true, margin: "-80px" }}
+              {...inView}
               className="mt-6 text-4xl leading-tight text-inverse-ink sm:text-5xl"
             >
               Uma segunda camada de <span className="italic text-lavender">inteligência</span>.
@@ -53,10 +54,8 @@ export default function PharmAssist() {
 
             <motion.p
               variants={fadeUp}
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true, margin: "-80px" }}
-              className="mt-5 max-w-md text-lg leading-relaxed text-inverse-ink/70"
+              {...inView}
+              className="mt-5 max-w-md text-lg leading-relaxed text-inverse-ink/85"
             >
               A PharmAssist organiza informações, identifica padrões e apresenta
               evidências. Para ampliar a capacidade clínica do profissional —
@@ -65,9 +64,7 @@ export default function PharmAssist() {
 
             <motion.ul
               variants={stagger(0.08)}
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true, margin: "-60px" }}
+              {...inView}
               className="mt-8 flex flex-wrap gap-2.5"
             >
               {CAPABILITIES.map(({ icon: Icon, label }) => (
@@ -86,9 +83,7 @@ export default function PharmAssist() {
 
             <motion.div
               variants={fadeUp}
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true, margin: "-80px" }}
+              {...inView}
               className="relative mt-9 overflow-hidden rounded-2xl border-l-2 border-lavender bg-white/5 py-4 pl-5 pr-4 backdrop-blur-md"
             >
               {/* glow breathing along the accent edge */}
@@ -106,25 +101,34 @@ export default function PharmAssist() {
 
           <TiltCard
             variants={fadeUp}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: "-60px" }}
+            {...inView}
             max={9}
             glow="rgba(191,194,255,0.22)"
             className="group relative"
           >
             <div className="glass-strong relative overflow-hidden rounded-2xl p-2 shadow-glass">
+              {!loaded && (
+                <div
+                  aria-hidden
+                  className="absolute inset-2 animate-pulse rounded-xl bg-gradient-to-br from-white/10 to-white/5"
+                />
+              )}
               <img
+                ref={imgRef}
+                onLoad={onLoad}
                 src={assist}
                 alt="PharmAssist analisando o caso clínico e apresentando evidências ao farmacêutico"
                 width="1440"
                 height="779"
                 loading="lazy"
                 decoding="async"
-                className="w-full rounded-xl"
+                className={cn(
+                  "relative w-full rounded-xl transition-[opacity,transform] duration-700 ease-liquid",
+                  loaded ? "opacity-100 scale-100" : "opacity-0 scale-[1.02]"
+                )}
               />
               {/* scan line sweeping the screenshot — suggests live analysis */}
-              {!reduce && (
+              {!reduce && loaded && (
                 <motion.span
                   aria-hidden
                   className="pointer-events-none absolute inset-x-2 top-2 h-16 rounded-xl bg-gradient-to-b from-transparent via-lavender/25 to-transparent blur-sm"

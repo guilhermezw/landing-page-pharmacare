@@ -1,7 +1,8 @@
 import { motion } from "motion/react"
 import { Cpu, Share2, Compass, Infinity as InfinityIcon } from "lucide-react"
 
-import { fadeUp, stagger } from "@/lib/motion"
+import { fadeUp, stagger, inView } from "@/lib/motion"
+import IconTile from "@/components/IconTile"
 import TiltCard from "@/components/TiltCard"
 
 const PILLARS = [
@@ -32,13 +33,13 @@ export default function Visao() {
     <section id="visao" className="relative py-24 sm:py-28">
       <div className="mx-auto max-w-[1280px] px-6">
         <div className="max-w-2xl">
-          <motion.p variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, margin: "-80px" }} className="eyebrow">
+          <motion.p variants={fadeUp} {...inView} className="eyebrow">
             Visão de futuro
           </motion.p>
-          <motion.h2 variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, margin: "-80px" }} className="mt-4 text-4xl leading-tight text-ink sm:text-5xl">
+          <motion.h2 variants={fadeUp} {...inView} className="mt-4 text-4xl leading-tight text-ink sm:text-5xl">
             Construindo o futuro da <span className="italic text-primary">assistência farmacêutica</span>.
           </motion.h2>
-          <motion.p variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, margin: "-80px" }} className="mt-5 max-w-xl text-lg leading-relaxed text-ink-soft">
+          <motion.p variants={fadeUp} {...inView} className="mt-5 max-w-xl text-lg leading-relaxed text-ink-soft">
             Um único ecossistema conectando conhecimento científico, tecnologia e
             cuidado humano. Um novo padrão para a prática clínica.
           </motion.p>
@@ -55,9 +56,7 @@ export default function Visao() {
 
         <motion.div
           variants={stagger(0.09, 0.15)}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-60px" }}
+          {...inView}
           className="mt-12 grid grid-cols-1 gap-x-10 gap-y-10 sm:grid-cols-2 lg:grid-cols-4"
         >
           {PILLARS.map(({ icon: Icon, title, text }) => (
@@ -68,9 +67,7 @@ export default function Visao() {
               glow="rgba(17,17,255,0.12)"
               className="group rounded-2xl p-1"
             >
-              <div className="flex size-11 items-center justify-center rounded-xl bg-primary/10 text-primary transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-rotate-6 group-hover:scale-110 group-hover:bg-primary/15">
-                <Icon className="size-5" />
-              </div>
+              <IconTile icon={Icon} />
               <h3 className="mt-5 font-serif text-2xl text-ink">{title}</h3>
               <p className="mt-2 text-[15px] leading-relaxed text-ink-soft">{text}</p>
             </TiltCard>

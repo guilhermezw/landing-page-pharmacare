@@ -1,30 +1,41 @@
 import { motion } from "motion/react"
 import { Activity, ShieldCheck, FileHeart, LineChart } from "lucide-react"
 
-import { fadeUp, stagger } from "@/lib/motion"
+import { cn } from "@/lib/utils"
+import { fadeUp, stagger, inView } from "@/lib/motion"
+import { useImageLoaded } from "@/hooks/useImageLoaded"
+import IconTile from "@/components/IconTile"
 import TiltCard from "@/components/TiltCard"
 import prontuario from "@/assets/prontuario_paciente.png"
 import admin from "@/assets/dashboard_admin.png"
 
-function GlassImage({ src, alt }) {
+// Screenshot in a glass frame. The <img> width/height attributes let the
+// browser reserve the aspect ratio before the (lazy) image loads — no layout
+// shift — while a skeleton holds the space and the image fades up on load.
+function GlassImage({ src, alt, width, height }) {
+  const { ref, loaded, onLoad } = useImageLoaded()
   return (
-    <div className="glass-strong overflow-hidden rounded-2xl p-1.5 shadow-glass-soft">
+    <div className="glass-strong relative overflow-hidden rounded-2xl p-1.5 shadow-glass-soft">
+      {!loaded && (
+        <div
+          aria-hidden
+          className="absolute inset-1.5 animate-pulse rounded-xl bg-gradient-to-br from-surface-2 to-surface-4"
+        />
+      )}
       <img
+        ref={ref}
+        onLoad={onLoad}
         src={src}
         alt={alt}
+        width={width}
+        height={height}
         loading="lazy"
         decoding="async"
-        className="w-full rounded-xl transition-transform duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.045]"
+        className={cn(
+          "relative w-full rounded-xl transition-[opacity,transform] duration-700 ease-liquid group-hover:scale-[1.045]",
+          loaded ? "opacity-100 scale-100" : "opacity-0 scale-[1.02]"
+        )}
       />
-    </div>
-  )
-}
-
-// Icon tile that leans and brightens as the card is hovered.
-function IconTile({ icon: Icon }) {
-  return (
-    <div className="flex size-11 items-center justify-center rounded-xl bg-primary/10 text-primary transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-rotate-6 group-hover:scale-110 group-hover:bg-primary/15">
-      <Icon className="size-5" />
     </div>
   )
 }
@@ -48,13 +59,13 @@ export default function Plataforma() {
     <section id="plataforma" className="relative py-24 sm:py-28">
       <div className="mx-auto max-w-[1280px] px-6">
         <div className="max-w-2xl">
-          <motion.p variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, margin: "-80px" }} className="eyebrow">
+          <motion.p variants={fadeUp} {...inView} className="eyebrow">
             A plataforma
           </motion.p>
-          <motion.h2 variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, margin: "-80px" }} className="mt-4 text-4xl leading-tight text-ink sm:text-5xl">
+          <motion.h2 variants={fadeUp} {...inView} className="mt-4 text-4xl leading-tight text-ink sm:text-5xl">
             Prática clínica <span className="italic text-primary">organizada</span>, inteligente e segura.
           </motion.h2>
-          <motion.p variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, margin: "-80px" }} className="mt-5 max-w-xl text-lg leading-relaxed text-ink-soft">
+          <motion.p variants={fadeUp} {...inView} className="mt-5 max-w-xl text-lg leading-relaxed text-ink-soft">
             Cada funcionalidade nasce de uma pergunta simples: isso permite que um
             profissional cuide melhor de alguém?
           </motion.p>
@@ -62,9 +73,7 @@ export default function Plataforma() {
 
         <motion.div
           variants={stagger(0.1)}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-60px" }}
+          {...inView}
           className="mt-14 grid grid-cols-1 gap-5 lg:grid-cols-12"
         >
           <TiltCard
@@ -81,7 +90,7 @@ export default function Plataforma() {
               trajetória única — e ela permanece organizada, acessível e segura.
             </p>
             <div className="mt-6">
-              <GlassImage src={prontuario} alt="Prontuário do paciente no PharmaCare" />
+              <GlassImage src={prontuario} alt="Prontuário do paciente no PharmaCare" width={1425} height={899} />
             </div>
           </TiltCard>
 
@@ -112,7 +121,7 @@ export default function Plataforma() {
                   serviço, sem a complexidade de um sistema hospitalar antigo.
                 </p>
               </div>
-              <GlassImage src={admin} alt="Painel de gestão do PharmaCare com indicadores do serviço" />
+              <GlassImage src={admin} alt="Painel de gestão do PharmaCare com indicadores do serviço" width={1440} height={780} />
             </div>
           </TiltCard>
         </motion.div>

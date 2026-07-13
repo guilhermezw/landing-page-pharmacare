@@ -1,7 +1,7 @@
 import { motion, useMotionValue, useMotionTemplate, useReducedMotion } from "motion/react"
 import { ArrowRight } from "lucide-react"
 
-import { fadeUp } from "@/lib/motion"
+import { fadeUp, inView } from "@/lib/motion"
 import LiquidMesh from "@/components/LiquidMesh"
 import SplitText from "@/components/SplitText"
 import MagneticButton from "@/components/MagneticButton"
@@ -45,9 +45,7 @@ export default function CTAFinal() {
 
           <motion.p
             variants={fadeUp}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: "-80px" }}
+            {...inView}
             className="mx-auto mt-6 max-w-lg text-lg leading-relaxed text-ink-soft"
           >
             Conheça o PharmaCare e veja como a tecnologia pode devolver ao
@@ -56,9 +54,7 @@ export default function CTAFinal() {
 
           <motion.div
             variants={fadeUp}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: "-80px" }}
+            {...inView}
             className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row"
           >
             <MagneticButton href="#agendar" size="lg" shimmer="always">

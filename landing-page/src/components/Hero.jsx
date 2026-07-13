@@ -2,10 +2,12 @@ import { useRef } from "react"
 import { motion, useScroll, useTransform, useReducedMotion } from "motion/react"
 import { ArrowRight, ShieldCheck } from "lucide-react"
 
+import { cn } from "@/lib/utils"
 import LiquidMesh from "@/components/LiquidMesh"
 import SplitText from "@/components/SplitText"
 import MagneticButton from "@/components/MagneticButton"
 import { useMouseTilt } from "@/hooks/useMouseTilt"
+import { useImageLoaded } from "@/hooks/useImageLoaded"
 import dashboard from "@/assets/dahsboard_pharma.png"
 
 const EASE = [0.22, 1, 0.36, 1]
@@ -17,6 +19,7 @@ const item = {
 
 export default function Hero() {
   const reduce = useReducedMotion()
+  const { ref: imgRef, loaded, onLoad } = useImageLoaded()
   const frameRef = useRef(null)
   const { scrollYProgress } = useScroll({
     target: frameRef,
@@ -27,7 +30,7 @@ export default function Hero() {
   const scale = useTransform(scrollYProgress, [0, 0.5], reduce ? [1, 1] : [0.94, 1])
 
   // Pointer-driven 3D tilt layered on top of the scroll parallax.
-  const { ref: tiltRef, onMouseMove, onMouseLeave, style: tiltStyle } = useMouseTilt({ max: 8 })
+  const { ref: tiltRef, onMouseMove, onMouseLeave, rotateX, rotateY } = useMouseTilt({ max: 8 })
 
   return (
     <section id="top" className="relative overflow-hidden pt-36 pb-20 sm:pt-44 sm:pb-28">
@@ -54,6 +57,7 @@ export default function Hero() {
             mode="chars"
             stagger={0.03}
             delay={0.15}
+            trigger="mount"
             className="mt-5 text-[3.25rem] leading-[1.02] text-ink sm:text-7xl"
             segments={[
               { text: "Cuidar é " },
@@ -93,20 +97,28 @@ export default function Hero() {
         </motion.div>
 
         {/* The grand reveal — dashboard floating in a glass frame */}
-        <div className="mx-auto mt-16 max-w-5xl [perspective:1400px] sm:mt-20">
+        {/* Stable container: owns the pointer listeners + perspective, never transformed,
+            so its measured rect stays put and the tilt tracks the cursor cleanly. */}
+        <div
+          ref={tiltRef}
+          onMouseMove={onMouseMove}
+          onMouseLeave={onMouseLeave}
+          className="mx-auto mt-16 max-w-5xl [perspective:1400px] sm:mt-20"
+        >
+          {/* Scroll parallax */}
           <motion.div
             ref={frameRef}
             style={{ y, rotateX: scrollRotate, scale }}
             className="[transform-style:preserve-3d]"
           >
+            {/* Idle float */}
             <motion.div
-              ref={tiltRef}
-              onMouseMove={onMouseMove}
-              onMouseLeave={onMouseLeave}
-              style={tiltStyle}
+              className="[transform-style:preserve-3d]"
               animate={reduce ? undefined : { y: [0, -10, 0] }}
               transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
             >
+              {/* Pointer tilt (isolated on its own layer) */}
+              <motion.div style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}>
               <div className="glass-strong relative overflow-hidden rounded-[1.75rem] p-2 shadow-glass sm:p-3">
                 <div className="absolute inset-x-10 -top-px z-10 h-px bg-gradient-to-r from-transparent via-white to-transparent" />
                 {/* light glare sweeping across the glass */}
@@ -118,16 +130,28 @@ export default function Hero() {
                     transition={{ duration: 6, repeat: Infinity, repeatDelay: 3.5, ease: "easeInOut" }}
                   />
                 )}
+                {!loaded && (
+                  <div
+                    aria-hidden
+                    className="absolute inset-2 animate-pulse rounded-[1.35rem] bg-gradient-to-br from-surface-2 to-surface-4 sm:inset-3"
+                  />
+                )}
                 <img
+                  ref={imgRef}
+                  onLoad={onLoad}
                   src={dashboard}
                   alt="Painel clínico do PharmaCare com o acompanhamento farmacoterapêutico do paciente"
                   width="1440"
                   height="778"
                   fetchPriority="high"
                   decoding="async"
-                  className="w-full rounded-[1.35rem]"
+                  className={cn(
+                    "relative w-full rounded-[1.35rem] transition-opacity duration-500 ease-liquid",
+                    loaded ? "opacity-100" : "opacity-0"
+                  )}
                 />
               </div>
+              </motion.div>
             </motion.div>
           </motion.div>
         </div>

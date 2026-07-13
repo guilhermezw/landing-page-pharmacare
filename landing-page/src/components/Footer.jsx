@@ -1,6 +1,6 @@
 import { motion } from "motion/react"
 
-import { fadeUp, stagger } from "@/lib/motion"
+import { fadeUp, stagger, inView } from "@/lib/motion"
 import logo from "@/assets/logo.png"
 
 const GROUPS = [
@@ -29,9 +29,7 @@ export default function Footer() {
       <div className="mx-auto max-w-[1280px] rounded-[2rem] glass px-6 py-14 sm:px-12">
         <motion.div
           variants={stagger(0.1)}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-60px" }}
+          {...inView}
           className="grid gap-12 lg:grid-cols-[1.4fr_1fr_1fr]"
         >
           <motion.div variants={fadeUp}>
@@ -44,9 +42,6 @@ export default function Footer() {
                 className="-ml-[5px] h-16 w-auto origin-left transition-transform duration-300 ease-liquid group-hover:scale-[1.04]"
               />
             </a>
-            <p className="mt-5 max-w-xs font-serif text-2xl italic leading-snug text-ink">
-              Cuidar é nossa ciência.
-            </p>
           </motion.div>
 
           {GROUPS.map((g) => (

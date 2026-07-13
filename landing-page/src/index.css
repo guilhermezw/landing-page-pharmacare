@@ -108,8 +108,8 @@
 
   html {
     scroll-behavior: smooth;
-    /* Fixed navbar offset — anchor jumps clear the floating header */
-    scroll-padding-top: 6rem;
+    /* Fixed navbar offset — anchor jumps clear the flat header */
+    scroll-padding-top: 5rem;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }

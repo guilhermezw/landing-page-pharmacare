@@ -25,6 +25,7 @@ export default function SplitText({
   mode = "words",
   stagger = 0.05,
   delay = 0,
+  trigger = "inView",
   className,
   ...props
 }) {
@@ -46,13 +47,22 @@ export default function SplitText({
 
   const child = mode === "chars" ? charChild : wordChild
 
+  // Above-the-fold headings (trigger="mount") play on load. Using whileInView
+  // for them is unreliable when they sit inside a parent that already
+  // orchestrates entrance with animate="show" — the gesture and the parent's
+  // variant propagation conflict and the heading can stay hidden.
+  const triggerProps =
+    trigger === "mount"
+      ? { initial: "hidden", animate: "show" }
+      : { initial: "hidden", whileInView: "show", viewport: { once: true, margin: "-80px" } }
+
   // Mask wrapping a single token — hides it until it rides up into view.
   const Mask = ({ children, className: c }) => (
     <span
       className={cn("inline-block overflow-hidden align-bottom", c)}
       style={{ paddingBottom: "0.12em", marginBottom: "-0.12em" }}
     >
-      <motion.span variants={child} className="inline-block will-change-transform">
+      <motion.span variants={child} className="inline-block">
         {children}
       </motion.span>
     </span>
@@ -62,9 +72,7 @@ export default function SplitText({
     <MotionTag
       className={className}
       variants={revealContainer(stagger, delay)}
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once: true, margin: "-80px" }}
+      {...triggerProps}
       {...props}
     >
       {segments.map((seg, si) => {

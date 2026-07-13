@@ -1,7 +1,7 @@
 import { motion, useReducedMotion } from "motion/react"
 
 import { Badge } from "@/components/ui/badge"
-import { fadeUp, stagger } from "@/lib/motion"
+import { fadeUp, stagger, inView } from "@/lib/motion"
 import icon from "@/assets/icon.svg"
 
 const VALUES = [
@@ -42,31 +42,27 @@ export default function Crenca() {
             />
           </motion.div>
 
-          <motion.p variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }} className="eyebrow mt-6">
+          <motion.p variants={fadeUp} {...inView} className="eyebrow mt-6">
             Nosso compromisso
           </motion.p>
 
           <motion.blockquote
             variants={fadeUp}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
+            {...inView}
             className="mx-auto mt-5 max-w-2xl font-serif text-3xl leading-tight text-ink sm:text-[2.6rem]"
           >
             “Isso ajuda alguém a cuidar{" "}
             <span className="italic text-primary">melhor</span> de outra pessoa?”
           </motion.blockquote>
 
-          <motion.p variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }} className="mx-auto mt-6 max-w-lg text-lg leading-relaxed text-ink-soft">
+          <motion.p variants={fadeUp} {...inView} className="mx-auto mt-6 max-w-lg text-lg leading-relaxed text-ink-soft">
             Toda decisão de design, toda funcionalidade, toda linha de código
             existe para responder essa única pergunta.
           </motion.p>
 
           <motion.div
             variants={stagger(0.05)}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
+            {...inView}
             className="mt-10 flex flex-wrap justify-center gap-2.5"
           >
             {VALUES.map((v, i) => (
