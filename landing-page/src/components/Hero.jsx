@@ -1,4 +1,4 @@
-import { useRef } from "react"
+import { useRef, useEffect } from "react"
 import { motion, useScroll, useTransform, useReducedMotion } from "motion/react"
 import { ArrowRight, ShieldCheck } from "lucide-react"
 
@@ -9,6 +9,7 @@ import MagneticButton from "@/components/MagneticButton"
 import { useMouseTilt } from "@/hooks/useMouseTilt"
 import { useImageLoaded } from "@/hooks/useImageLoaded"
 import dashboard from "@/assets/dahsboard_pharma.png"
+import bgVideo from "@/assets/video/background_care.mp4"
 
 const EASE = [0.22, 1, 0.36, 1]
 
@@ -21,6 +22,16 @@ export default function Hero() {
   const reduce = useReducedMotion()
   const { ref: imgRef, loaded, onLoad } = useImageLoaded()
   const frameRef = useRef(null)
+  const videoRef = useRef(null)
+
+  // Under reduced motion, freeze the ambient video on its first frame.
+  useEffect(() => {
+    const v = videoRef.current
+    if (!v) return
+    if (reduce) v.pause()
+    else v.play?.().catch(() => {})
+  }, [reduce])
+
   const { scrollYProgress } = useScroll({
     target: frameRef,
     offset: ["start end", "end start"],
@@ -34,7 +45,37 @@ export default function Hero() {
 
   return (
     <section id="top" className="relative overflow-hidden pt-36 pb-20 sm:pt-44 sm:pb-28">
-      <LiquidMesh />
+      {/* Ambient background: looping video softened by a brand scrim */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+        <video
+          ref={videoRef}
+          className="h-full w-full object-cover object-center opacity-70"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+        >
+          <source src={bgVideo} type="video/mp4" />
+        </video>
+
+        {/* Light surface veil — desaturates and lifts the footage */}
+        <div className="absolute inset-0 bg-surface/45" />
+        {/* Subtle cobalt tint tying the video to the brand */}
+        <div className="absolute inset-0 bg-primary/8 mix-blend-multiply" />
+        {/* Radial light wash behind the copy for dark-ink contrast */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(60% 55% at 50% 38%, rgba(248,249,255,0.75) 0%, rgba(248,249,255,0.15) 55%, transparent 100%)",
+          }}
+        />
+        {/* Bottom fade melting into the page */}
+        <div className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-b from-transparent to-surface" />
+      </div>
+
+      <LiquidMesh intensity={0.6} />
       {/* soft top glow anchoring the header */}
       <div
         aria-hidden
