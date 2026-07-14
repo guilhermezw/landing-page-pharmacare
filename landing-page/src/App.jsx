@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar"
 import Hero from "@/components/Hero"
 import Manifesto from "@/components/Manifesto"
+import Galeria from "@/components/Galeria"
 import Plataforma from "@/components/Plataforma"
 import PharmAssist from "@/components/PharmAssist"
 import Visao from "@/components/Visao"
@@ -21,6 +22,7 @@ export default function App() {
       <main id="conteudo" tabIndex={-1} className="outline-none">
         <Hero />
         <Manifesto />
+        <Galeria />
         <Plataforma />
         <PharmAssist />
         <Visao />
