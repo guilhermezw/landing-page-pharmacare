@@ -7,6 +7,7 @@ import { fadeUp, stagger, inView, floatIdle } from "@/lib/motion"
 import { useImageLoaded } from "@/hooks/useImageLoaded"
 import LiquidMesh from "@/components/LiquidMesh"
 import TiltCard from "@/components/TiltCard"
+import LightboxTrigger from "@/components/LightboxTrigger"
 import assist from "@/assets/pharma_assist.png"
 
 const CAPABILITIES = [
@@ -149,8 +150,13 @@ export default function PharmAssist() {
                 </div>
               </div>
 
-              {/* opaque screen plate — the fix: no translucency, full contrast */}
-              <div className="relative bg-surface">
+              {/* opaque screen plate — the fix: no translucency, full contrast.
+                  Clickable to open the full-screen viewer. */}
+              <LightboxTrigger
+                id="assist"
+                label="PharmAssist analisando o caso clínico e apresentando evidências ao farmacêutico"
+                className="bg-surface"
+              >
                 {!loaded && (
                   <div
                     aria-hidden
@@ -171,7 +177,7 @@ export default function PharmAssist() {
                     loaded ? "opacity-100 scale-100" : "opacity-0 scale-[1.02]"
                   )}
                 />
-              </div>
+              </LightboxTrigger>
             </figure>
 
             {/* floating callouts narrate the value the empty screen can't show */}

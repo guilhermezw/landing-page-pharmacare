@@ -6,16 +6,22 @@ import { fadeUp, stagger, inView } from "@/lib/motion"
 import { useImageLoaded } from "@/hooks/useImageLoaded"
 import IconTile from "@/components/IconTile"
 import TiltCard from "@/components/TiltCard"
+import LightboxTrigger from "@/components/LightboxTrigger"
 import prontuario from "@/assets/prontuario_paciente.png"
 import admin from "@/assets/dashboard_admin.png"
 
-// Screenshot in a glass frame. The <img> width/height attributes let the
-// browser reserve the aspect ratio before the (lazy) image loads — no layout
-// shift — while a skeleton holds the space and the image fades up on load.
-function GlassImage({ src, alt, width, height }) {
+// Screenshot in a glass frame, clickable to open the full-screen viewer. The
+// <img> width/height attributes let the browser reserve the aspect ratio before
+// the (lazy) image loads — no layout shift — while a skeleton holds the space
+// and the image fades up on load.
+function GlassImage({ id, src, alt, width, height }) {
   const { ref, loaded, onLoad } = useImageLoaded()
   return (
-    <div className="glass-strong relative overflow-hidden rounded-2xl p-1.5 shadow-glass-soft">
+    <LightboxTrigger
+      id={id}
+      label={alt}
+      className="glass-strong overflow-hidden rounded-2xl p-1.5 shadow-glass-soft"
+    >
       {!loaded && (
         <div
           aria-hidden
@@ -36,7 +42,7 @@ function GlassImage({ src, alt, width, height }) {
           loaded ? "opacity-100 scale-100" : "opacity-0 scale-[1.02]"
         )}
       />
-    </div>
+    </LightboxTrigger>
   )
 }
 
@@ -90,7 +96,7 @@ export default function Plataforma() {
               trajetória única — e ela permanece organizada, acessível e segura.
             </p>
             <div className="mt-6">
-              <GlassImage src={prontuario} alt="Prontuário do paciente no PharmaCare" width={2940} height={1740} />
+              <GlassImage id="prontuario" src={prontuario} alt="Prontuário do paciente no PharmaCare" width={2940} height={1740} />
             </div>
           </TiltCard>
 
@@ -122,7 +128,7 @@ export default function Plataforma() {
                 </p>
               </div>
               <div className="lg:col-span-3">
-                <GlassImage src={admin} alt="Painel de gestão do PharmaCare com indicadores do serviço" width={2940} height={1740} />
+                <GlassImage id="admin" src={admin} alt="Painel de gestão do PharmaCare com indicadores do serviço" width={2940} height={1740} />
               </div>
             </div>
           </TiltCard>

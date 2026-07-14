@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils"
 import LiquidMesh from "@/components/LiquidMesh"
 import SplitText from "@/components/SplitText"
 import MagneticButton from "@/components/MagneticButton"
+import LightboxTrigger from "@/components/LightboxTrigger"
 import { AGENDAR_URL } from "@/lib/config"
 import { useMouseTilt } from "@/hooks/useMouseTilt"
 import { useImageLoaded } from "@/hooks/useImageLoaded"
@@ -179,20 +180,25 @@ export default function Hero() {
                     className="absolute inset-2 animate-pulse rounded-[1.35rem] bg-gradient-to-br from-surface-2 to-surface-4 sm:inset-3"
                   />
                 )}
-                <img
-                  ref={imgRef}
-                  onLoad={onLoad}
-                  src={dashboard}
-                  alt="Painel clínico do PharmaCare com o acompanhamento farmacoterapêutico do paciente"
-                  width="2940"
-                  height="1664"
-                  fetchPriority="high"
-                  decoding="async"
-                  className={cn(
-                    "relative w-full rounded-[1.35rem] transition-opacity duration-500 ease-liquid",
-                    loaded ? "opacity-100" : "opacity-0"
-                  )}
-                />
+                <LightboxTrigger
+                  id="dashboard"
+                  label="Painel clínico do PharmaCare com o acompanhamento farmacoterapêutico do paciente"
+                >
+                  <img
+                    ref={imgRef}
+                    onLoad={onLoad}
+                    src={dashboard}
+                    alt="Painel clínico do PharmaCare com o acompanhamento farmacoterapêutico do paciente"
+                    width="2940"
+                    height="1664"
+                    fetchPriority="high"
+                    decoding="async"
+                    className={cn(
+                      "relative w-full rounded-[1.35rem] transition-opacity duration-500 ease-liquid",
+                      loaded ? "opacity-100" : "opacity-0"
+                    )}
+                  />
+                </LightboxTrigger>
               </div>
               </motion.div>
             </motion.div>

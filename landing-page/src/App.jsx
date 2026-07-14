@@ -8,9 +8,11 @@ import Visao from "@/components/Visao"
 import Crenca from "@/components/Crenca"
 import CTAFinal from "@/components/CTAFinal"
 import Footer from "@/components/Footer"
+import { LightboxProvider } from "@/context/LightboxProvider"
 
 export default function App() {
   return (
+    <LightboxProvider>
     <div className="relative min-h-screen bg-surface">
       <a
         href="#conteudo"
@@ -31,5 +33,6 @@ export default function App() {
       </main>
       <Footer />
     </div>
+    </LightboxProvider>
   )
 }
