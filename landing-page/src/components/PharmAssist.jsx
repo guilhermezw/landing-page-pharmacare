@@ -52,7 +52,7 @@ export default function PharmAssist() {
         {/* subtle top hairline of light on the glass panel */}
         <div aria-hidden className="pointer-events-none absolute inset-x-16 top-0 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent" />
 
-        <div className="relative grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+        <div className="relative grid items-center gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
           <div>
             <motion.div variants={fadeUp} {...inView}>
               <Badge variant="inverse">
@@ -159,8 +159,8 @@ export default function PharmAssist() {
                   onLoad={onLoad}
                   src={assist}
                   alt="PharmAssist analisando o caso clínico e apresentando evidências ao farmacêutico"
-                  width="1440"
-                  height="779"
+                  width="2940"
+                  height="1740"
                   loading="lazy"
                   decoding="async"
                   className={cn(

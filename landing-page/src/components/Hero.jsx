@@ -8,7 +8,7 @@ import SplitText from "@/components/SplitText"
 import MagneticButton from "@/components/MagneticButton"
 import { useMouseTilt } from "@/hooks/useMouseTilt"
 import { useImageLoaded } from "@/hooks/useImageLoaded"
-import dashboard from "@/assets/dahsboard_pharma.png"
+import dashboard from "@/assets/dashboard_pharma.png"
 import bgVideo from "@/assets/video/background_care.mp4"
 
 const EASE = [0.22, 1, 0.36, 1]
@@ -144,7 +144,7 @@ export default function Hero() {
           ref={tiltRef}
           onMouseMove={onMouseMove}
           onMouseLeave={onMouseLeave}
-          className="mx-auto mt-16 max-w-5xl [perspective:1400px] sm:mt-20"
+          className="mx-auto mt-16 max-w-6xl [perspective:1400px] sm:mt-20"
         >
           {/* Scroll parallax */}
           <motion.div
@@ -182,8 +182,8 @@ export default function Hero() {
                   onLoad={onLoad}
                   src={dashboard}
                   alt="Painel clínico do PharmaCare com o acompanhamento farmacoterapêutico do paciente"
-                  width="1440"
-                  height="778"
+                  width="2940"
+                  height="1664"
                   fetchPriority="high"
                   decoding="async"
                   className={cn(

@@ -44,6 +44,6 @@ Shared building blocks:
 - **`components/Reveal.jsx`** + **`lib/motion.js`** — the standard scroll-reveal. Section content uses `whileInView` with `viewport={{ once: true }}` and the shared `fadeUp`/`stagger` variants. Keep motion quiet and disciplined; the hero mesh is the one bold element.
 - **`lib/utils.js`** — `cn()` (clsx + tailwind-merge), used by all shadcn primitives.
 
-### Gotcha
+### Screenshots
 
-The dashboard screenshot in `src/assets/` is named **`dahsboard_pharma.png`** (misspelled). Import it exactly as-is.
+The system-screen screenshots in `src/assets/` (`dashboard_pharma.png`, `dashboard_admin.png`, `prontuario_paciente.png`, `pharma_assist.png`) are high-res exports (~2940px wide). They render at full-bleed sizes inside `.glass-strong` frames; the `<img>` `width`/`height` attributes must match each file's true 2940×1740 (or 2940×1664 for the hero) aspect ratio to avoid layout shift.

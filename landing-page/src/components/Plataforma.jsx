@@ -79,7 +79,7 @@ export default function Plataforma() {
           <TiltCard
             variants={fadeUp}
             max={6}
-            className="group glass flex flex-col overflow-hidden rounded-[1.75rem] p-7 lg:col-span-7"
+            className="group glass flex flex-col overflow-hidden rounded-[1.75rem] p-6 sm:p-7 lg:col-span-8"
           >
             <div className="flex items-center gap-3">
               <IconTile icon={FileHeart} />
@@ -90,11 +90,11 @@ export default function Plataforma() {
               trajetória única — e ela permanece organizada, acessível e segura.
             </p>
             <div className="mt-6">
-              <GlassImage src={prontuario} alt="Prontuário do paciente no PharmaCare" width={1425} height={899} />
+              <GlassImage src={prontuario} alt="Prontuário do paciente no PharmaCare" width={2940} height={1740} />
             </div>
           </TiltCard>
 
-          <div className="flex flex-col gap-5 lg:col-span-5">
+          <div className="flex flex-col gap-5 lg:col-span-4">
             <FeatureCard icon={Activity} title="Acompanhamento farmacoterapêutico">
               Registre evoluções, condutas e intervenções com clareza — do
               primeiro atendimento ao acompanhamento contínuo.
@@ -108,10 +108,10 @@ export default function Plataforma() {
           <TiltCard
             variants={fadeUp}
             max={5}
-            className="group glass flex flex-col overflow-hidden rounded-[1.75rem] p-7 lg:col-span-12"
+            className="group glass flex flex-col overflow-hidden rounded-[1.75rem] p-6 sm:p-7 lg:col-span-12"
           >
-            <div className="grid items-center gap-8 lg:grid-cols-2">
-              <div>
+            <div className="grid items-center gap-8 lg:grid-cols-5">
+              <div className="lg:col-span-2">
                 <IconTile icon={LineChart} />
                 <h3 className="mt-5 font-serif text-2xl text-ink sm:text-3xl">
                   Gestão com clareza clínica
@@ -121,7 +121,9 @@ export default function Plataforma() {
                   serviço, sem a complexidade de um sistema hospitalar antigo.
                 </p>
               </div>
-              <GlassImage src={admin} alt="Painel de gestão do PharmaCare com indicadores do serviço" width={1440} height={780} />
+              <div className="lg:col-span-3">
+                <GlassImage src={admin} alt="Painel de gestão do PharmaCare com indicadores do serviço" width={2940} height={1740} />
+              </div>
             </div>
           </TiltCard>
         </motion.div>
