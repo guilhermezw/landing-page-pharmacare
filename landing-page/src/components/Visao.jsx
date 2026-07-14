@@ -36,7 +36,7 @@ export default function Visao() {
           <motion.p variants={fadeUp} {...inView} className="eyebrow">
             Visão de futuro
           </motion.p>
-          <motion.h2 variants={fadeUp} {...inView} className="mt-4 text-4xl leading-tight text-ink sm:text-5xl">
+          <motion.h2 variants={fadeUp} {...inView} className="mt-4 text-balance text-4xl leading-tight text-ink sm:text-5xl">
             Construindo o futuro da <span className="italic text-primary">assistência farmacêutica</span>.
           </motion.h2>
           <motion.p variants={fadeUp} {...inView} className="mt-5 max-w-xl text-lg leading-relaxed text-ink-soft">

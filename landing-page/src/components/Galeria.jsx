@@ -7,7 +7,7 @@ import {
   useTransform,
   useReducedMotion,
 } from "motion/react"
-import { ChevronLeft, ChevronRight } from "lucide-react"
+import { ChevronLeft, ChevronRight, Pause, Play } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { fadeUp, inView, EASE } from "@/lib/motion"
@@ -41,21 +41,15 @@ const srcModules = import.meta.glob("../assets/images/*.{jpg,jpeg}", {
   query: { w: "1100", format: "webp", quality: "72" },
 })
 
-// Generic, honest pt-BR descriptions — cycled across the (stock) photos.
-const ALTS = [
-  "Profissionais de saúde em pesquisa clínica",
-  "Cientista analisando amostras em laboratório",
-  "Equipe médica em ambiente hospitalar",
-  "Pesquisa científica com foco no cuidado humano",
-  "Farmacêuticos e pesquisadores em trabalho clínico",
-]
-
+// Decorative stock photography — the carousel carries mood, not information
+// (the section heading provides the meaning and the stage has an accessible
+// label), so each image is marked decorative with alt="".
 const SLIDES = Object.keys(srcsetModules)
   .sort()
-  .map((path, i) => ({
+  .map((path) => ({
     srcset: srcsetModules[path],
     src: srcModules[path],
-    alt: ALTS[i % ALTS.length],
+    alt: "",
   }))
 
 // ── One glass-framed photo, placed in 3D by its offset from the active card ──
@@ -181,6 +175,9 @@ export default function Galeria() {
 
   const [active, setActive] = useState(Math.floor(n / 2))
   const [paused, setPaused] = useState(false)
+  // Explicit user intent to stop autoplay (WCAG 2.2.2), kept separate from the
+  // transient hover/drag pause so it isn't undone when the pointer leaves.
+  const [userPaused, setUserPaused] = useState(false)
   const [stageW, setStageW] = useState(0)
 
   const stageRef = useRef(null)
@@ -210,7 +207,7 @@ export default function Galeria() {
   // Autoplay — ping-pong across the deck, disabled while paused or reduced.
   const dirRef = useRef(1)
   useEffect(() => {
-    if (reduce || paused || n <= 1) return
+    if (reduce || paused || userPaused || n <= 1) return
     const id = setInterval(() => {
       setActive((cur) => {
         let d = dirRef.current
@@ -220,7 +217,7 @@ export default function Galeria() {
       })
     }, 4500)
     return () => clearInterval(id)
-  }, [reduce, paused, n])
+  }, [reduce, paused, userPaused, n])
 
   // Drag-to-scrub with momentum snapping.
   const onPointerDown = (e) => {
@@ -268,7 +265,7 @@ export default function Galeria() {
           <motion.h2
             variants={fadeUp}
             {...inView}
-            className="mt-4 text-4xl leading-tight text-ink sm:text-5xl"
+            className="mt-4 text-balance text-4xl leading-tight text-ink sm:text-5xl"
           >
             A ciência tem <span className="italic text-primary">rosto humano</span>.
           </motion.h2>
@@ -337,12 +334,12 @@ export default function Galeria() {
               onClick={() => go(-1)}
               disabled={active === 0}
               aria-label="Foto anterior"
-              className="glass flex size-12 items-center justify-center rounded-full text-ink transition hover:text-primary disabled:cursor-not-allowed disabled:opacity-40"
+              className="glass flex size-12 touch-manipulation items-center justify-center rounded-full text-ink transition hover:text-primary disabled:cursor-not-allowed disabled:opacity-40"
             >
               <ChevronLeft className="size-5" />
             </button>
 
-            <p className="eyebrow tabular-nums" aria-live="polite">
+            <p className="eyebrow tabular-nums">
               {String(active + 1).padStart(2, "0")}
               <span className="text-outline"> / {String(n).padStart(2, "0")}</span>
             </p>
@@ -352,9 +349,19 @@ export default function Galeria() {
               onClick={() => go(1)}
               disabled={active === n - 1}
               aria-label="Próxima foto"
-              className="glass flex size-12 items-center justify-center rounded-full text-ink transition hover:text-primary disabled:cursor-not-allowed disabled:opacity-40"
+              className="glass flex size-12 touch-manipulation items-center justify-center rounded-full text-ink transition hover:text-primary disabled:cursor-not-allowed disabled:opacity-40"
             >
               <ChevronRight className="size-5" />
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setUserPaused((v) => !v)}
+              aria-label={userPaused ? "Reproduzir apresentação" : "Pausar apresentação"}
+              aria-pressed={userPaused}
+              className="glass ml-2 flex size-12 touch-manipulation items-center justify-center rounded-full text-ink transition hover:text-primary"
+            >
+              {userPaused ? <Play className="size-5" /> : <Pause className="size-5" />}
             </button>
           </div>
         </>

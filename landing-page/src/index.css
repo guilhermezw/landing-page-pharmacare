@@ -28,7 +28,7 @@
   --color-lavender: #bfc2ff;     /* inverse-primary — organic accent */
 
   --color-line: #c5c4db;         /* outline-variant */
-  --color-outline: #757589;
+  --color-outline: #5c5c72;      /* outline — AA (≥4.5:1) on surface for small text */
 
   /* ---- Typefaces ---- */
   --font-serif: "Instrument Serif", ui-serif, Georgia, serif;

@@ -10,7 +10,8 @@ import { Button } from "@/components/ui/button"
   sizes and focus styles are preserved.
 
   Props:
-    - href       → anchor target (these CTAs are all in-page anchors)
+    - href       → anchor target. In-page anchors (#id) or external URLs
+                   (http/https) — external links open in a new tab.
     - variant/size → forwarded to Button
     - shimmer    → "hover" (sweep on hover, default) | "always" (continuous)
     - strength   → magnetic pull factor (px per fraction of half-size)
@@ -32,6 +33,11 @@ export default function MagneticButton({
   const reduce = useReducedMotion()
   const anchorRef = useRef(null)
 
+  // External links (http/https) open in a new tab with safe rel; in-page
+  // anchors stay in the same tab.
+  const isExternal = /^https?:\/\//.test(href || "")
+  const externalProps = isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {}
+
   const x = useMotionValue(0)
   const y = useMotionValue(0)
   const sx = useSpring(x, { stiffness: 260, damping: 18, mass: 0.5 })
@@ -40,7 +46,7 @@ export default function MagneticButton({
   if (reduce) {
     return (
       <Button asChild variant={variant} size={size} className={className}>
-        <a href={href} {...props}>
+        <a href={href} {...externalProps} {...props}>
           {children}
         </a>
       </Button>
@@ -89,7 +95,7 @@ export default function MagneticButton({
       whileTap={{ scale: 0.97 }}
     >
       <Button asChild variant={variant} size={size} className={cn("relative overflow-hidden", className)}>
-        <a ref={anchorRef} href={href} onMouseMove={onMouseMove} onMouseLeave={onMouseLeave} {...props}>
+        <a ref={anchorRef} href={href} {...externalProps} onMouseMove={onMouseMove} onMouseLeave={onMouseLeave} {...props}>
           {shimmerSpan}
           <span className="relative z-10 inline-flex items-center gap-2">{children}</span>
         </a>

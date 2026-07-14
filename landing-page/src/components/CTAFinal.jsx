@@ -2,6 +2,7 @@ import { motion, useMotionValue, useMotionTemplate, useReducedMotion } from "mot
 import { ArrowRight } from "lucide-react"
 
 import { fadeUp, inView } from "@/lib/motion"
+import { AGENDAR_URL } from "@/lib/config"
 import LiquidMesh from "@/components/LiquidMesh"
 import SplitText from "@/components/SplitText"
 import MagneticButton from "@/components/MagneticButton"
@@ -57,11 +58,11 @@ export default function CTAFinal() {
             {...inView}
             className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row"
           >
-            <MagneticButton href="#agendar" size="lg" shimmer="always">
+            <MagneticButton href={AGENDAR_URL} size="lg" shimmer="always">
               Agendar demonstração
               <ArrowRight className="size-4" />
             </MagneticButton>
-            <MagneticButton href="#plataforma" size="lg" variant="glass">
+            <MagneticButton href={AGENDAR_URL} size="lg" variant="glass">
               Falar com a equipe
             </MagneticButton>
           </motion.div>

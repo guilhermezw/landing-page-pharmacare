@@ -71,7 +71,7 @@ export default function PharmAssist() {
             <motion.h2
               variants={fadeUp}
               {...inView}
-              className="mt-6 text-4xl leading-[1.08] text-inverse-ink sm:text-5xl"
+              className="mt-6 text-balance text-4xl leading-[1.08] text-inverse-ink sm:text-5xl"
             >
               Uma segunda camada de <span className="italic text-lavender">inteligência</span>.
             </motion.h2>
@@ -140,7 +140,10 @@ export default function PharmAssist() {
                   <span className="size-2.5 rounded-full bg-outline/30" />
                   <span className="size-2.5 rounded-full bg-primary/30" />
                 </div>
-                <div className="ml-auto flex items-center gap-1.5 rounded-full bg-surface px-3 py-1 text-[11px] font-medium tracking-wide text-outline">
+                <div
+                  translate="no"
+                  className="ml-auto flex items-center gap-1.5 rounded-full bg-surface px-3 py-1 text-[11px] font-medium tracking-wide text-outline"
+                >
                   <Sparkles aria-hidden className="size-3 text-primary" />
                   app.pharmacare/assistente
                 </div>

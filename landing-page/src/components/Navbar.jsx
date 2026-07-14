@@ -4,6 +4,7 @@ import { Menu, X } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+import { AGENDAR_URL } from "@/lib/config"
 import logo from "@/assets/logo.png"
 
 // Order mirrors the document flow (Hero → Manifesto → Plataforma → PharmAssist → Visão)
@@ -20,8 +21,15 @@ const panelVariants = {
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.28, ease: [0.22, 1, 0.36, 1], staggerChildren: 0.05, delayChildren: 0.04 },
+    transition: { duration: 0.28, ease: [0.22, 1, 0.36, 1] },
   },
+}
+
+// Stagger lives on the <nav> wrapper so the dialog landmark structure and the
+// link entrance animation can coexist.
+const navVariants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.05, delayChildren: 0.08 } },
 }
 
 const linkVariants = {
@@ -186,14 +194,14 @@ export default function Navbar() {
               asChild
               className="hidden h-10 px-5 text-[13px] font-medium shadow-[0_1px_2px_rgba(11,28,48,0.08)] hover:shadow-[0_8px_24px_-8px_rgba(17,17,255,0.45)] md:inline-flex"
             >
-              <a href="#agendar">Agendar demonstração</a>
+              <a href={AGENDAR_URL} target="_blank" rel="noopener noreferrer">Agendar demonstração</a>
             </Button>
 
             <button
               ref={toggleRef}
               type="button"
               onClick={() => setOpen((v) => !v)}
-              className="flex size-11 items-center justify-center rounded-lg text-ink transition-colors hover:bg-ink/[0.04] md:hidden"
+              className="flex size-11 touch-manipulation items-center justify-center rounded-lg text-ink transition-colors hover:bg-ink/[0.04] md:hidden"
               aria-label={open ? "Fechar menu" : "Abrir menu"}
               aria-expanded={open}
               aria-controls="mobile-menu"
@@ -244,36 +252,50 @@ export default function Navbar() {
               key="sheet"
               id="mobile-menu"
               ref={menuRef}
+              role="dialog"
+              aria-modal="true"
+              aria-label="Menu de navegação"
               variants={panelVariants}
               initial="hidden"
               animate="show"
               exit={{ opacity: 0, y: -8, transition: { duration: 0.2 } }}
-              className="glass-strong fixed inset-x-4 top-[4.5rem] z-50 flex flex-col gap-1 rounded-2xl border border-line/50 p-3 shadow-glass md:hidden"
+              className="glass-strong fixed inset-x-4 top-[4.5rem] z-50 rounded-2xl border border-line/50 p-3 shadow-glass [overscroll-behavior:contain] md:hidden"
             >
-              {LINKS.map((l) => (
-                <motion.a
-                  key={l.id}
-                  variants={linkVariants}
-                  href={`#${l.id}`}
-                  onClick={() => setOpen(false)}
-                  aria-current={activeId === l.id ? "location" : undefined}
-                  className={cn(
-                    "rounded-xl px-4 py-3 text-[15px] font-medium transition-colors",
-                    activeId === l.id
-                      ? "bg-ink/[0.05] text-ink"
-                      : "text-ink-soft hover:bg-ink/[0.04] hover:text-ink"
-                  )}
-                >
-                  {l.label}
-                </motion.a>
-              ))}
-              <motion.div variants={linkVariants} className="mt-1">
-                <Button asChild className="w-full">
-                  <a href="#agendar" onClick={() => setOpen(false)}>
-                    Agendar demonstração
-                  </a>
-                </Button>
-              </motion.div>
+              <motion.nav
+                aria-label="Menu principal"
+                variants={navVariants}
+                className="flex flex-col gap-1"
+              >
+                {LINKS.map((l) => (
+                  <motion.a
+                    key={l.id}
+                    variants={linkVariants}
+                    href={`#${l.id}`}
+                    onClick={() => setOpen(false)}
+                    aria-current={activeId === l.id ? "location" : undefined}
+                    className={cn(
+                      "rounded-xl px-4 py-3 text-[15px] font-medium transition-colors",
+                      activeId === l.id
+                        ? "bg-ink/[0.05] text-ink"
+                        : "text-ink-soft hover:bg-ink/[0.04] hover:text-ink"
+                    )}
+                  >
+                    {l.label}
+                  </motion.a>
+                ))}
+                <motion.div variants={linkVariants} className="mt-1">
+                  <Button asChild className="w-full">
+                    <a
+                      href={AGENDAR_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => setOpen(false)}
+                    >
+                      Agendar demonstração
+                    </a>
+                  </Button>
+                </motion.div>
+              </motion.nav>
             </motion.div>
           </>
         )}

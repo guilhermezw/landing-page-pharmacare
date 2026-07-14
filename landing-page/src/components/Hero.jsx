@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils"
 import LiquidMesh from "@/components/LiquidMesh"
 import SplitText from "@/components/SplitText"
 import MagneticButton from "@/components/MagneticButton"
+import { AGENDAR_URL } from "@/lib/config"
 import { useMouseTilt } from "@/hooks/useMouseTilt"
 import { useImageLoaded } from "@/hooks/useImageLoaded"
 import dashboard from "@/assets/dashboard_pharma.png"
@@ -50,17 +51,18 @@ export default function Hero() {
         <video
           ref={videoRef}
           className="h-full w-full object-cover object-center opacity-70"
-          autoPlay
+          autoPlay={!reduce}
           muted
           loop
           playsInline
-          preload="auto"
+          preload={reduce ? "none" : "auto"}
         >
           <source src={bgVideo} type="video/mp4" />
         </video>
 
-        {/* Light surface veil — desaturates and lifts the footage */}
-        <div className="absolute inset-0 bg-surface/45" />
+        {/* Light surface veil — desaturates and lifts the footage. Kept high
+            enough that dark-ink copy holds AA contrast over any video frame. */}
+        <div className="absolute inset-0 bg-surface/55" />
         {/* Subtle cobalt tint tying the video to the brand */}
         <div className="absolute inset-0 bg-primary/8 mix-blend-multiply" />
         {/* Radial light wash behind the copy for dark-ink contrast */}
@@ -68,7 +70,7 @@ export default function Hero() {
           className="absolute inset-0"
           style={{
             background:
-              "radial-gradient(60% 55% at 50% 38%, rgba(248,249,255,0.75) 0%, rgba(248,249,255,0.15) 55%, transparent 100%)",
+              "radial-gradient(72% 62% at 50% 40%, rgba(248,249,255,0.9) 0%, rgba(248,249,255,0.4) 55%, transparent 100%)",
           }}
         />
         {/* Bottom fade melting into the page */}
@@ -119,7 +121,7 @@ export default function Hero() {
             variants={item}
             className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row"
           >
-            <MagneticButton href="#agendar" size="lg">
+            <MagneticButton href={AGENDAR_URL} size="lg">
               Agendar demonstração
               <ArrowRight className="size-4" />
             </MagneticButton>
